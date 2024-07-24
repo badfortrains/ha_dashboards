@@ -1,0 +1,408 @@
+title: Home
+views:
+  - theme: Backend-selected
+    title: Home
+    path: test
+    badges: []
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: General
+          - type: custom:mushroom-climate-card
+            entity: climate.dining_room
+            icon: mdi:heat-wave
+            hvac_modes: []
+            collapsible_controls: false
+            show_temperature_control: true
+            fill_container: false
+            layout: horizontal
+          - type: custom:mushroom-climate-card
+            entity: climate.mr_cool_minisplit
+            icon: mdi:heat-pump
+            show_temperature_control: true
+            layout: horizontal
+          - type: grid
+            cards:
+              - type: custom:mushroom-entity-card
+                entity: switch.house_fan
+                layout: vertical
+                name: House Fan
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+              - type: custom:mushroom-entity-card
+                entity: cover.dining_room_shade
+                layout: vertical
+                name: Shade
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+              - type: custom:mushroom-entity-card
+                entity: cover.garage_door_opener_msg100_main_channel
+                layout: vertical
+                tap_action:
+                  action: toggle
+                hold_action:
+                  action: more-info
+                name: Garage Door
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Lights
+          - type: grid
+            cards:
+              - type: custom:mushroom-light-card
+                entity: light.porch_light_switch_2
+                layout: vertical
+                name: Porch
+                secondary_info: none
+              - type: custom:mushroom-light-card
+                entity: light.entry_way_switch
+                layout: vertical
+                secondary_info: none
+                name: Entryway
+              - type: custom:mushroom-light-card
+                entity: light.living_room_lights
+                layout: vertical
+                name: Living room
+                secondary_info: none
+              - type: custom:mushroom-light-card
+                entity: light.dining_room_switch
+                layout: vertical
+                secondary_info: none
+                name: Dining Room
+              - type: custom:mushroom-light-card
+                entity: light.kitchen_switch
+                name: Kitchen
+                layout: vertical
+                secondary_info: none
+              - type: custom:mushroom-light-card
+                entity: light.tv_room_lamp
+                secondary_info: none
+                layout: vertical
+                icon: mdi:floor-lamp-outline
+              - type: custom:mushroom-light-card
+                entity: light.tv_room_ceiling_light
+                icon: mdi:ceiling-light
+                layout: vertical
+                secondary_info: none
+                name: 'TV Room Ceiling '
+              - type: custom:mushroom-light-card
+                entity: light.bed_side_outlet
+                icon: mdi:coach-lamp
+                layout: vertical
+                secondary_info: none
+                name: Bed side lamps
+              - type: custom:mushroom-light-card
+                entity: light.kitchen_plug
+                name: Bed Floor lamp
+                layout: vertical
+                secondary_info: none
+                icon: mdi:floor-lamp
+              - type: custom:mushroom-light-card
+                entity: light.bedroom_closet_light
+                name: Closet Light
+                icon: mdi:hanger
+                layout: vertical
+                secondary_info: none
+              - type: custom:mushroom-light-card
+                entity: light.downstairs_lights
+                secondary_info: none
+                layout: vertical
+                name: Downstairs
+              - type: custom:mushroom-light-card
+                entity: light.patio_string_lights
+                name: Patio
+                icon: mdi:string-lights
+                layout: vertical
+                secondary_info: none
+              - type: custom:mushroom-light-card
+                entity: light.bathroom_shelf_plug
+                name: Bathroom Shelf
+                icon: mdi:file-cabinet
+                layout: vertical
+                secondary_info: none
+              - type: custom:mushroom-light-card
+                entity: light.rgb_lights_3
+                name: Pantry
+                icon: mdi:door
+                layout: vertical
+                secondary_info: none
+      - type: vertical-stack
+        cards:
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.dinning_room_temp_temperature
+                name: Dining Room
+                show_state: true
+              - entity: sensor.tv_room_temp_temperature
+                name: Tv Room
+              - entity: sensor.bedroom_temp_temperature
+                name: Bedroom
+              - entity: sensor.nws_outside_temp
+                name: Outside
+                show_state: true
+            name: Home Temperature
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.airnow_aqi
+            name: Air Quality
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-entity-card
+            entity: vacuum.roborock_s4_max
+            tap_action:
+              action: call-service
+              service: script.vacuum_main_areas
+              data: {}
+              target: {}
+            hold_action:
+              action: more-info
+          - type: custom:mushroom-entity-card
+            entity: switch.water_heater_plug
+            icon: mdi:pump
+            name: Recirculation pump
+          - type: custom:mushroom-entity-card
+            entity: lock.backdoor_lock
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
+      - type: vertical-stack
+        cards:
+          - type: custom:mushroom-title-card
+            title: Actions
+          - type: custom:mushroom-template-card
+            primary: Turn off all lights
+            secondary: ''
+            icon: mdi:lightbulb-group
+            tap_action:
+              action: call-service
+              service: light.turn_off
+              data: {}
+              target:
+                entity_id: all
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: conditional
+                conditions:
+                  - entity: >-
+                      automation.turn_on_lights_when_motion_is_detected_in_living_room
+                    state: 'off'
+                chip:
+                  type: entity
+                  entity: >-
+                    automation.turn_on_lights_when_motion_is_detected_in_living_room
+                  icon: mdi:motion-sensor-off
+                  name: Living room motion
+                  tap_action:
+                    action: call-service
+                    service: automation.toggle
+                    data: {}
+                    target:
+                      entity_id: >-
+                        automation.turn_on_lights_when_motion_is_detected_in_living_room
+                  icon_color: grey
+                  content_info: name
+              - type: conditional
+                conditions:
+                  - entity: >-
+                      automation.turn_on_lights_when_motion_is_detected_in_living_room
+                    state: 'on'
+                chip:
+                  type: entity
+                  entity: >-
+                    automation.turn_on_lights_when_motion_is_detected_in_living_room
+                  name: Living  room motion
+                  icon: mdi:motion-sensor
+                  tap_action:
+                    action: call-service
+                    service: automation.toggle
+                    data: {}
+                    target:
+                      entity_id: >-
+                        automation.turn_on_lights_when_motion_is_detected_in_living_room
+                  content_info: name
+              - type: entity
+                entity: script.doorbell_test
+                icon: mdi:doorbell
+                name: Doorbell
+                content_info: name
+                tap_action:
+                  action: call-service
+                  service: script.doorbell_test
+                  target: {}
+          - type: custom:mushroom-title-card
+            title: ''
+            subtitle: Vacuum
+          - type: custom:mushroom-chips-card
+            chips:
+              - type: entity
+                entity: script.vacuum_kitchen
+                name: Kitchen
+                content_info: name
+                icon: mdi:fridge-outline
+              - type: entity
+                entity: script.vaccum_bedroom
+                icon: mdi:bed
+                content_info: name
+                name: Bedroom
+              - type: entity
+                entity: script.vacuum_main_areas
+                content_info: name
+                name: House
+                icon: mdi:home
+  - theme: Backend-selected
+    path: default_view
+    title: Old
+    badges: []
+    cards:
+      - entities:
+          - entity: switch.whole_house_fan_2
+        show_header_toggle: false
+        title: Attic
+        type: entities
+      - entities:
+          - entity: sensor.airnow_aqi
+        hours_to_show: 24
+        refresh_interval: 0
+        type: history-graph
+        title: Airnow AQI
+      - entity: weather.openweathermap
+        type: weather-forecast
+      - entity: sensor.openweathermap_temperature
+        type: entity
+      - entities:
+          - entity: binary_sensor.tv_room_window_sensor_contact
+        show_name: false
+        title: Tv room window
+        type: glance
+      - entity: climate.dining_room
+        type: thermostat
+      - show_current: true
+        show_forecast: true
+        type: weather-forecast
+        entity: weather.e0993_daynight
+      - entities:
+          - entity: light.0x90fd9ffffed41e0b_light
+          - entity: script.reset_tv_room_light_color
+        title: Tv room
+        type: entities
+      - entity: group.living_room
+        hold_action:
+          action: more-info
+        show_icon: true
+        show_name: true
+        show_state: false
+        tap_action:
+          action: toggle
+        type: button
+        icon: hass:lightbulb
+      - entity: cover.dining_room_shade
+        hold_action:
+          action: more-info
+        show_icon: true
+        show_name: true
+        show_state: false
+        tap_action:
+          action: toggle
+        type: button
+      - type: entity
+        entity: lock.0x002446fffd039aab
+        name: Backdoor
+      - type: entity
+        entity: switch.0x000d6ffffeaf6f6c
+        name: Closet light
+      - type: media-control
+        entity: media_player.spotify_sean_purcell
+      - entity: light.garage_light
+        hold_action:
+          action: more-info
+        show_icon: true
+        show_name: true
+        show_state: false
+        tap_action:
+          action: toggle
+        type: button
+        icon: hass:lightbulb
+        name: Garage
+      - entity: switch.0x5c0272fffe77a79a
+        hold_action:
+          action: more-info
+        show_icon: true
+        show_name: true
+        show_state: false
+        tap_action:
+          action: toggle
+        type: button
+        icon: hass:lightbulb
+        name: bedside lamps
+      - entity: light.stairs_light_switch
+        hold_action:
+          action: more-info
+        show_icon: true
+        show_name: true
+        show_state: false
+        tap_action:
+          action: toggle
+        type: button
+        name: Stairs
+      - type: button
+        tap_action:
+          action: toggle
+        entity: light.storage_room_light
+      - type: button
+        tap_action:
+          action: toggle
+        entity: switch.0x00124b001f8abee8_switch
+        name: Bedroom floor lamp
+      - type: light
+        entity: light.patio_string_lights
+      - type: light
+        entity: light.0x0017880109a3eded
+      - type: entities
+        entities:
+          - vacuum.roborock_s4_max
+      - type: entity
+        entity: sensor.0x00124b0024546ae0_temperature
+      - type: grid
+        square: false
+        columns: 1
+        cards:
+          - type: thermostat
+            entity: climate.mr_cool_minisplit
+      - type: entities
+        entities:
+          - cover.garage_door
+        title: Garage Door
+      - type: entity
+        entity: binary_sensor.0xa4c1387876c46fde_water_leak
+      - type: entities
+        entities:
+          - entity: binary_sensor.circle_sticker_tag
+  - theme: Backend-selected
+    title: battery
+    path: battery
+    badges: []
+    cards:
+      - type: custom:auto-entities
+        card:
+          type: custom:battery-state-card
+          title: Battery levels
+        sort:
+          method: state
+          numeric: true
+        filter:
+          exclude:
+            - entity_id: sensor.kaylas_iphone_battery_level
+            - entity_id: sensor.pixel_3_battery_level
+            - entity_id: sensor.pixel_7_battery_level
+            - entity_id: sensor.suzannas_iphone_battery_level
+            - entity_id: sensor.sean_s_ipad_battery_level
+          include:
+            - attributes:
+                device_class: battery
+              state: <= 100
